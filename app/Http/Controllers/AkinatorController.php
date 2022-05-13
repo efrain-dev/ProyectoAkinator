@@ -24,10 +24,10 @@ class AkinatorController extends Controller
         $proxPregunta = 2;
 
         if ($request->has('n')) {
-            $nodo =  $request->get('n');
+            $nodo = $request->get('n');
         }
         if ($request->has('r')) {
-            $nodoRepuesto =  $request->get('r');
+            $nodoRepuesto = $request->get('r');
         }
         if ($request->has('np')) {
             $numPregunta = $request->get('np');
@@ -114,11 +114,11 @@ class AkinatorController extends Controller
                     $mensaje .= "<h2>¿Tu personaje es " . $texto . "?</h2>";
                     $mensaje .= "</div>";
                     $mensaje .= "<div class='contenedorRespuestas'>";
-                    $mensaje .= "<a  class='btn btn-success' href='?n=" . $nodoSi . "&r=0&np=" . $proxPregunta . "'>SÍ</a>";
-                    $mensaje .= "<a class='btn btn-danger' href='?n=" . $nodoNo . "&r=0&np=" . $proxPregunta . "'>NO</a>";
-                    $mensaje .= "<a class='btn btn-warning' href='?n=" . $nodoProbablementeSi . "&r=" . $nodoProbablementeNo . "&np=" . $proxPregunta . "'>PROBABLEMENTE</a>";
-                    $mensaje .= "<a class='btn btn-secondary' href='?n=" . $nodoProbablementeNo . "&r=" . $nodoProbablementeSi . "&np=" . $proxPregunta . "'>PROBABLEMENTE NO</a>";
-                    $mensaje .= "<a class='btn btn-success form-control' href='?n=" . $nodoAleatorio . "&r=" . $nodoAleatorioAlt . "&np=" . $proxPregunta . "'>NO LO SÉ</a>";
+                    $mensaje .= "<a  class='btn btn-success col-3' href='?n=" . $nodoSi . "&r=0&np=" . $proxPregunta . "'>SÍ</a>";
+                    $mensaje .= "<a class='btn btn-danger col-3' href='?n=" . $nodoNo . "&r=0&np=" . $proxPregunta . "'>NO</a>";
+                    $mensaje .= "<a class='btn btn-warning col-3' href='?n=" . $nodoProbablementeSi . "&r=" . $nodoProbablementeNo . "&np=" . $proxPregunta . "'>PROBABLEMENTE</a>";
+                    $mensaje .= "<a class='btn btn-secondary col-3' href='?n=" . $nodoProbablementeNo . "&r=" . $nodoProbablementeSi . "&np=" . $proxPregunta . "'>PROBABLEMENTE NO</a>";
+                    $mensaje .= "<a class='btn btn-info form-control my-2' href='?n=" . $nodoAleatorio . "&r=" . $nodoAleatorioAlt . "&np=" . $proxPregunta . "'>NO LO SÉ</a>";
                     $mensaje .= "<div class='limpiar'></div>";
                     $mensaje .= "</div>";
                 }
@@ -220,14 +220,14 @@ class AkinatorController extends Controller
     public function crear(Request $request)
     {
 //RECOGEMOS EL MENSAJE
-        $nodo 		     = $request->get('nodo');
-        $nombre 		 = $request->get('nombre');
+        $nodo = $request->get('nodo');
+        $nombre = $request->get('nombre');
         $caracteristicas = $request->get('caracteristicas');
-        $nombreAnterior  = $request->get('nombreAnterior');
+        $nombreAnterior = $request->get('nombreAnterior');
 
 //NUEVOS NODOS
         $NumHijoI = $nodo * 2;
-        $NumHijoD = $nodo * 2 +1;
+        $NumHijoD = $nodo * 2 + 1;
 
 //TEXTOS
         $NombreHijoI = $nombre;
@@ -238,8 +238,8 @@ class AkinatorController extends Controller
 
 
 //GUARDAMOS EN LA BD LA NUEVA INFORMACIÓN
-        Arbol::create(['nodo' => $NumHijoI, 'texto' => $nombre,'pregunta'=>FALSE]);
-        Arbol::create(['nodo' => $NumHijoD, 'texto' => $nombreAnterior,'pregunta'=>FALSE]);
+        Arbol::create(['nodo' => $NumHijoI, 'texto' => $nombre, 'pregunta' => FALSE]);
+        Arbol::create(['nodo' => $NumHijoD, 'texto' => $nombreAnterior, 'pregunta' => FALSE]);
         $arbol = Arbol::find($nodo);
         $arbol->update(['texto' => $caracteristicas, 'pregunta' => TRUE]);
 
@@ -249,7 +249,17 @@ class AkinatorController extends Controller
 
 
 //VOLVEMOS A LA PÁGINA PRINCIPAL
-        return redirect("/" . "?n=1"  . "&r=0");
+        return redirect("/" . "?n=1" . "&r=0");
 
     }
+
+    public function ver()
+    {
+        $cantidad = Arbol::where('pregunta',0)->count();
+        $aciertos = Partida::where('acierto',true)->count();
+        $fallos = Partida::where('acierto',false)->count();
+        $personajes = Partida::select('personaje')->get()->take(10);
+        return view('ver',compact('cantidad','aciertos','fallos','personajes'));
+    }
+
 }

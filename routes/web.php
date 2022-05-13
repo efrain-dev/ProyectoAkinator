@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/{n?}{r?}{np?}', [\App\Http\Controllers\AkinatorController::class,'index']);
 Route::get('/akinator/respuesta', [\App\Http\Controllers\AkinatorController::class,'respuesta']);
 Route::post('/akinator/crear', [\App\Http\Controllers\AkinatorController::class,'crear']);
+Route::get('/akinator/ver', [\App\Http\Controllers\AkinatorController::class,'ver'])->name('ver');
