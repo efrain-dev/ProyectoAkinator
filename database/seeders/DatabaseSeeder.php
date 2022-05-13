@@ -17,27 +17,7 @@ class DatabaseSeeder extends Seeder
         Arbol::create(
             ['texto' => 'Cristiano Ronaldo', 'pregunta' => false]
         );
-        Arbol::create(
-            ['texto' => 'Roberto Gomez Bolaños', 'pregunta' => false]
-        );
-        Arbol::create(
-            ['texto' => 'Pedro Sanchez', 'pregunta' => false]
-        );
-        Arbol::create(
-            ['texto'=>'Maria Antonieta','pregunta'=>false]
-        );
-        Arbol::create(
-            ['texto'=>'Leonel Messi','pregunta'=>false]
-        );
-        Arbol::create(
-            ['texto'=>'Dios','pregunta'=>false]
-        );
-        Arbol::create(
-            ['texto'=>'Goku','pregunta'=>false]
-        );
-        Arbol::create(
-            ['texto'=>'Mario Bross','pregunta'=>false]
-        );
+
         // \App\Models\User::factory(10)->create();
     }
 }

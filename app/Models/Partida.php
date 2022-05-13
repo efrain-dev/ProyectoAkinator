@@ -9,6 +9,6 @@ class Partida extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    protected $table = "nodo";
+    protected $table = "partida";
     public $timestamps = false;
 }

@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{n?}{r?}{np?}', [\App\Http\Controllers\AkinatorController::class,'index']);
+Route::get('/akinator/respuesta', [\App\Http\Controllers\AkinatorController::class,'respuesta']);
+Route::post('/akinator/crear', [\App\Http\Controllers\AkinatorController::class,'crear']);
