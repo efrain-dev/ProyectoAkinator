@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AkinatorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,8 +13,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/{n?}{r?}{np?}', [\App\Http\Controllers\AkinatorController::class,'index']);
-Route::get('/akinator/respuesta', [\App\Http\Controllers\AkinatorController::class,'respuesta']);
-Route::post('/akinator/crear', [\App\Http\Controllers\AkinatorController::class,'crear']);
-Route::get('/akinator/ver', [\App\Http\Controllers\AkinatorController::class,'ver'])->name('ver');
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+Route::get('/sobre-nosotros', function () {
+    return view('about');
+})->name('about');
+Route::get('/informacion', function () {
+    return view('info');
+})->name('info');
+Route::get('/iarop/respuesta', [AkinatorController::class,'respuesta'])->name('respuesta');
+Route::get('/iarop/ver', [AkinatorController::class,'ver'])->name('ver');
+Route::post('/iarop/crear', [AkinatorController::class,'crear'])->name('crear');
+Route::get('/iarop/{n?}{r?}{np?}', [AkinatorController::class,'index'])->name('index');

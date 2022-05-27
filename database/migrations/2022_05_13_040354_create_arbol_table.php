@@ -17,6 +17,7 @@ class CreateArbolTable extends Migration
             $table->increments('nodo');
             $table->string('texto',500)->nullable();
             $table->boolean('pregunta')->nullable();
+            $table->string('url',500)->nullable();
 
         });
     }

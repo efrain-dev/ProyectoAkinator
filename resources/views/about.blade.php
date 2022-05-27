@@ -4,7 +4,7 @@
 @endsection
 
 @section('nombre')
-    I.A.R.OP
+    Sobre Nosotros
 @endsection
 
 @section('contenido')

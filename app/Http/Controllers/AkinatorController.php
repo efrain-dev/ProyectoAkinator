@@ -7,17 +7,45 @@ use App\Models\Partida;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class AkinatorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Client\Response
      */
+    public function getImagenes($name)
+    {
+        $arbol = Arbol::where('texto', $name)->first();
+        if ($arbol) {
+            if ($arbol->url==null){
+//                $result = Http::get("https://www.googleapis.com/customsearch/v1?googlehost=google.es&lr=lang_gt&imgType=photo&imgSize=medium&num=1&cr=countryES&searchType=image&key=AIzaSyDigiyePEnPx5cf3gWpoz94_B7q9-P1Pxw&cx=011a104b626e42f2d&q=" . $name);
+//                $data = collect($result->json());
+//                if (count($data['items'])==0){
+//                    $result ='https://www.minutoneuquen.com/u/fotografias/m/2020/4/23/f500x333-246407_270210_55.jpg';
+//                }else{
+//                    $url = $data['items'][0]['link'];
+//                    $arbol->update(['url'=>$url]);
+//                    $result = $url;
+//                }
+                $result ='https://www.minutoneuquen.com/u/fotografias/m/2020/4/23/f500x333-246407_270210_55.jpg';
+
+            }else{
+                $result = $arbol->url;
+            }
+        }else{
+            $result = 'https://www.minutoneuquen.com/u/fotografias/m/2020/4/23/f500x333-246407_270210_55.jpg';
+
+        }
+
+        return $result;
+
+    }
+
     public function index(Request $request)
     {
-
         $nodo = 1;
         $nodoRepuesto = 0;
         $numPregunta = 1;
@@ -36,7 +64,6 @@ class AkinatorController extends Controller
         }
         if ($nodoRepuesto != 0) {
 
-            session_start();    //iniciamos la sesión
             $nodosRepuesto = array();    //creamos el array
             //COMPROBAMOS SI EXISTE LA VARIABLE DE SESIÓN (ES DECIR, SI HEMOS GUARDADO ALGÚN NODO EN EL QUE DUDÁSEMOS)
             if ($request->session()->has('nodosRepuesto')) {
@@ -58,15 +85,11 @@ class AkinatorController extends Controller
 
         $nodoProbablementeSi = $nodoSi;
         $nodoProbablementeNo = $nodoNo;
-
 //-----------------------------------------------------
 //OBTENEMOS UN NÚMERO AL AZAR ENTRE CERO Y UNO
 //lo hacemos para evitar que tenga una tendencia a recorrer siempre el mismo camino
 
         $aleatrio = rand(0, 1);
-
-        $nodoAleatorio = 0;    //EL QUE ELEGIMOS
-        $nodoAleatorioAlt = 0;    //EL CONTRARIO
 
         if ($aleatrio == 0) {
             $nodoAleatorio = $nodoNo;
@@ -75,16 +98,12 @@ class AkinatorController extends Controller
             $nodoAleatorio = $nodoSi;
             $nodoAleatorioAlt = $nodoNo;
         }
-//-----------------------------------------------------
-//HACEMOS LA CONSULTA A LA BD
 
         try {
             $consulta = Arbol::where('nodo', '=', $nodo)->select('texto', 'pregunta')->get();
-            $texto = '';
-            $pregunta = true;
             if (count($consulta) == 0) {
                 $mensaje = 'No exite el nodo';
-                return view('home', compact('mensaje'));
+                return view('iarop', compact('mensaje'));
             } else {
                 $fila = $consulta->first();
                 $texto = $fila->texto;
@@ -103,22 +122,26 @@ class AkinatorController extends Controller
 
                     $mensaje .= "<div class='contenedorRespuestas '>";
 
-                    $mensaje .= "<a class='btn btn-success col-6 ' href='/akinator/respuesta?r=1&n=" . $nodo . "&p=" . $texto . "&np=" . $proxPregunta . "'>SÍ</a>";
-                    $mensaje .= "<a class='btn btn-danger col-6' href='/akinator/respuesta?r=0&n=" . $nodo . "&p=" . $texto . "&np=" . $proxPregunta . "'>NO</a>";
+                    $mensaje .= "<a class='btn btn-success col-6 ' href='/iarop/respuesta?r=1&n=" . $nodo . "&p=" . $texto . "&np=" . $proxPregunta . "'>SÍ</a>";
+                    $mensaje .= "<a class='btn btn-danger col-6' href='/iarop/respuesta?r=0&n=" . $nodo . "&p=" . $texto . "&np=" . $proxPregunta . "'>NO</a>";
                     $mensaje .= "</div>";
 
                 } //SI ES UNA PREGUNTA, PREGUNTAMOS (SI DUDAMOS, EN EL PARÁMETRO "R" GUARDAMOS LA RAMA ALTERNATIVA, SINO VALE CERO)
                 else {
+                    $url = $this->getImagenes($texto);
+                    $mensaje .= "<div class='contenedorPregunta' style='text-align: center'>";
+                    $mensaje .= "<img src='$url' style='height: 35vh' /> ";
+                    $mensaje .= "</div>";
 
                     $mensaje .= "<div class='contenedorPregunta'>";
                     $mensaje .= "<h2>¿Tu personaje es " . $texto . "?</h2>";
                     $mensaje .= "</div>";
                     $mensaje .= "<div class='contenedorRespuestas'>";
-                    $mensaje .= "<a  class='btn btn-success col-3' href='?n=" . $nodoSi . "&r=0&np=" . $proxPregunta . "'>SÍ</a>";
-                    $mensaje .= "<a class='btn btn-danger col-3' href='?n=" . $nodoNo . "&r=0&np=" . $proxPregunta . "'>NO</a>";
-                    $mensaje .= "<a class='btn btn-warning col-3' href='?n=" . $nodoProbablementeSi . "&r=" . $nodoProbablementeNo . "&np=" . $proxPregunta . "'>PROBABLEMENTE</a>";
-                    $mensaje .= "<a class='btn btn-secondary col-3' href='?n=" . $nodoProbablementeNo . "&r=" . $nodoProbablementeSi . "&np=" . $proxPregunta . "'>PROBABLEMENTE NO</a>";
-                    $mensaje .= "<a class='btn btn-info form-control my-2' href='?n=" . $nodoAleatorio . "&r=" . $nodoAleatorioAlt . "&np=" . $proxPregunta . "'>NO LO SÉ</a>";
+                    $mensaje .= "<a  class='btn btn-success col-3' href='/iarop?n=" . $nodoSi . "&r=0&np=" . $proxPregunta . "'>SÍ</a>";
+                    $mensaje .= "<a class='btn btn-danger col-3' href='/iarop?n=" . $nodoNo . "&r=0&np=" . $proxPregunta . "'>NO</a>";
+                    $mensaje .= "<a class='btn btn-warning col-3' href='/iarop?n=" . $nodoProbablementeSi . "&r=" . $nodoProbablementeNo . "&np=" . $proxPregunta . "'>PROBABLEMENTE</a>";
+                    $mensaje .= "<a class='btn btn-secondary col-3' href='/iarop?n=" . $nodoProbablementeNo . "&r=" . $nodoProbablementeSi . "&np=" . $proxPregunta . "'>PROBABLEMENTE NO</a>";
+                    $mensaje .= "<a class='btn btn-info form-control my-2' href='/iarop?n=" . $nodoAleatorio . "&r=" . $nodoAleatorioAlt . "&np=" . $proxPregunta . "'>NO LO SÉ</a>";
                     $mensaje .= "<div class='limpiar'></div>";
                     $mensaje .= "</div>";
                 }
@@ -127,9 +150,9 @@ class AkinatorController extends Controller
 
         } catch (Exception $e) {
             $mensaje = $e->getMessage();
-            return view('home', compact('mensaje'));
+            return view('iarop', compact('mensaje'));
         }
-        return view('home', compact('mensaje'));
+        return view('iarop', compact('mensaje'));
     }
 
     /**
@@ -144,26 +167,18 @@ class AkinatorController extends Controller
         $nombreAnterior = $request->get('p');
         $numPregunta = $request->get('np');
 
-        $mensaje = $this->formularioRespuesta($nodo, $nombreAnterior);
-//SI HA FALLADO
         if ($respuesta == 0) {
-
-            session_start();            //iniciamos la sesión
-            $nodosRepuesto = array();    //creamos el array
-
             //COMPROBAMOS SI EXISTE LA VARIABLE DE SESIÓN (ES DECIR, SI HEMOS GUARDADO ALGÚN NODO EN EL QUE DUDÁSEMOS)
             if ($request->session()->has('nodosRepuesto')) {
                 $nodosRepuesto = $request->session()->get('nodosRepuesto');
                 $tamano = count($nodosRepuesto);            //medimos la longitud del array
-
 
                 if ($tamano != 0) {
                     //SI HAY ELEMENTOS EN EL ARRAY QUE PODAMOS USAR
 
                     $nodoRevisar = array_pop($nodosRepuesto);    //obtenemos el último elemento del nodo y lo desapilamos
                     $request->session()->put('nodosRepuesto', $nodosRepuesto);  //actualizamos el array con los valores nuevos
-
-                    return redirect("/" . "?n=" . $nodoRevisar . "&r=0&np=" . $numPregunta . "");
+                    return redirect("/iarop/" . "?n=" . $nodoRevisar . "&r=0&np=" . $numPregunta . "");
 
                 } else {
                     //SI EL ARRAY CON NODOS DE REPUESTO ESTÁ VACÍO
@@ -189,10 +204,10 @@ class AkinatorController extends Controller
             }
             //-----------------------------------------------------
 
-            $mensaje = "<h2>¡GRACIAS POR JUGAR A JAVINATOR! ;)</h2>";
+            $mensaje = "<h2>¡GRACIAS POR USAR A I.A.R.OP! ;)</h2>";
         }
 
-        return view('home', compact('mensaje'));
+        return view('iarop', compact('mensaje'));
     }
 
 
@@ -201,7 +216,7 @@ class AkinatorController extends Controller
 
         $token = \request()->session()->token();
         $repuesta = "<div class='contenedorPregunta'>";
-        $repuesta .= "<form action='/akinator/crear'  method='POST' >";
+        $repuesta .= "<form action='/iarop/crear'  method='POST' >";
         $repuesta .= "<textarea id='nodo' name='nodo' placeholder='nombre' style='display:none;'>" . $n . "</textarea>";
         $repuesta .= "<textarea id='nombreAnterior' name='nombreAnterior' placeholder='nombre' style='display:none;'>" . $p . "</textarea>";
         $repuesta .= "<h2>¿En quién habías pensado?</h2>";
@@ -229,14 +244,6 @@ class AkinatorController extends Controller
         $NumHijoI = $nodo * 2;
         $NumHijoD = $nodo * 2 + 1;
 
-//TEXTOS
-        $NombreHijoI = $nombre;
-        $NombreHijoD = $nombreAnterior;
-
-//PREGUNTA
-        $pregunta = $caracteristicas;
-
-
 //GUARDAMOS EN LA BD LA NUEVA INFORMACIÓN
         Arbol::create(['nodo' => $NumHijoI, 'texto' => $nombre, 'pregunta' => FALSE]);
         Arbol::create(['nodo' => $NumHijoD, 'texto' => $nombreAnterior, 'pregunta' => FALSE]);
@@ -249,17 +256,19 @@ class AkinatorController extends Controller
 
 
 //VOLVEMOS A LA PÁGINA PRINCIPAL
-        return redirect("/" . "?n=1" . "&r=0");
+        return redirect("/iarop/" . "?n=1" . "&r=0");
 
     }
 
     public function ver()
     {
-        $cantidad = Arbol::where('pregunta',0)->count();
-        $aciertos = Partida::where('acierto',true)->count();
-        $fallos = Partida::where('acierto',false)->count();
+
+        $cantidad = Arbol::where('pregunta', 0)->count();
+        $aciertos = Partida::where('acierto', true)->count();
+        $fallos = Partida::where('acierto', false)->count();
         $personajes = Partida::select('personaje')->get()->take(10);
-        return view('ver',compact('cantidad','aciertos','fallos','personajes'));
+
+        return view('ver', compact('cantidad', 'aciertos', 'fallos', 'personajes'));
     }
 
 }
