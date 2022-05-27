@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Arbol::create(
-            ['texto' => 'Cristiano Ronaldo', 'pregunta' => false]
+            ['texto' => 'Lapiz', 'pregunta' => false]
         );
 
         // \App\Models\User::factory(10)->create();
