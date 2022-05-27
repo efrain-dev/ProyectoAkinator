@@ -21,7 +21,12 @@ class AkinatorController extends Controller
         $arbol = Arbol::where('texto', $name)->first();
         if ($arbol) {
             if ($arbol->url==null){
-//                $result = Http::get("https://www.googleapis.com/customsearch/v1?googlehost=google.es&lr=lang_gt&imgType=photo&imgSize=medium&num=1&cr=countryES&searchType=image&key=AIzaSyDigiyePEnPx5cf3gWpoz94_B7q9-P1Pxw&cx=011a104b626e42f2d&q=" . $name);
+
+                $key = "eyJpdiI6IlVkZFd6OS9qdVpsMkVWSW1TK2xFeUE9PSIsInZhbHVlIjoiakpnOXZuNDVONzFZQzZxMjJPUHpmYUp6KzgzOUhIVlFWWThlMHIvMXYvY1lrdUxFb1JpaWtoSWZGb0tHdGhPNXVSZVY5RitJdG43MFVxL1JRRTJYMzlCSTdoZytjYitSVnBUZ3ZCc0VDN3ZIWVYxM0VFRWZERHBhWmZHMmxFMHRH
+Y3AyN05OaExXcWRJS3N3OHZmOER2anJNbnEvV0FoVG1WVjRSZGxpVFh0cnZRZ0RaQmIxZWd0dkJ5emdEa0N1dXBXczZoL1BzRDdHS0JrcTJsQVNVM3JPdFd4bnlqZUgwblNGVHRMWlNoYkhDRElCWTRROGJneTBtakJpcW02Vk43dFp1eG51Q240RHBpMUljT09jenIweVBaR2Q4SU5kZE1jdEZ1SDRyM3c9Iiwi
+bWFjIjoiYjM0NzI4MGNlMTU2NWY2YzNhNDQxNzRmNjE4OThjMzM1NzljNWE2ZDVkMGEwZWI2N2EyNTA3MjZlNTgxM2QwZiIsInRhZyI6IiJ9";
+
+//                $result = Http::get(decrypt($key) . $name);
 //                $data = collect($result->json());
 //                if (count($data['items'])==0){
 //                    $result ='https://www.minutoneuquen.com/u/fotografias/m/2020/4/23/f500x333-246407_270210_55.jpg';
