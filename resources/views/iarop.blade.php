@@ -9,7 +9,7 @@
 
 @section('contenido')
 
-    <div class="container my-5 rounded shadow-lg border bg-white" style="">
+    <div class="container my-3 rounded shadow-lg border bg-white p-3 border-dark " style="">
         {!! $mensaje !!}
 
         <div class="d-flex justify-content-between my-5">

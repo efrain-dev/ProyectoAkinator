@@ -4,17 +4,17 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="icon" href="{{asset('img/icon.jpeg')}}">
     <!-- Bootstrap CSS -->
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/estilo.css')}}" rel="stylesheet">
 
     <title>@yield('titulo')</title>
 </head>
-<body style="background: #dbddde">
-<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+<body style="background: #ececec">
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary rounded-bottom shadow-lg">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">I.A.R.OP</a>
+        <a class="navbar-brand" href="#"><img src="{{asset('img/icon.jpeg')}}" class="my-auto" style="height: 2vh" alt=""> I.A.R.OP</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -40,14 +40,16 @@
         </div>
     </div>
 </nav>
-<h2 class="text-center">@yield('nombre')</h2>
-
-
+<h2 class="text-center my-3">@yield('nombre')</h2>
 @yield('contenido')
 
+
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"
+        integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @stack('script')
 </body>
 </html>
