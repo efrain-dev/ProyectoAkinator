@@ -22,17 +22,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{route('index')}}">I.A.R.OP</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('ver')}}">DATA</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('about')}}">Sobre Nosotros</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('info')}}">Informacion</a>
                 </li>
