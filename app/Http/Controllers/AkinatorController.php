@@ -131,17 +131,17 @@ bWFjIjoiYjM0NzI4MGNlMTU2NWY2YzNhNDQxNzRmNjE4OThjMzM1NzljNWE2ZDVkMGEwZWI2N2EyNTA3
                 else {
                     $url = $this->getImagenes($texto);
                     $mensaje .= "<div class='contenedorPregunta' style='text-align: center'>";
-                    $mensaje .= "<img src='$url' style='height: 35vh' /> ";
+                    $mensaje .= "<img src='$url' style='width: 35vh' /> ";
                     $mensaje .= "</div>";
 
                     $mensaje .= "<div class='contenedorPregunta'>";
                     $mensaje .= "<h2>¿Tu personaje es " . $texto . "?</h2>";
                     $mensaje .= "</div>";
                     $mensaje .= "<div class='contenedorRespuestas'>";
-                    $mensaje .= "<a  class='btn btn-success col-3' href='/iarop?n=" . $nodoSi . "&r=0&np=" . $proxPregunta . "'>SÍ</a>";
-                    $mensaje .= "<a class='btn btn-danger col-3' href='/iarop?n=" . $nodoNo . "&r=0&np=" . $proxPregunta . "'>NO</a>";
-                    $mensaje .= "<a class='btn btn-warning col-3' href='/iarop?n=" . $nodoProbablementeSi . "&r=" . $nodoProbablementeNo . "&np=" . $proxPregunta . "'>PROBABLEMENTE</a>";
-                    $mensaje .= "<a class='btn btn-secondary col-3' href='/iarop?n=" . $nodoProbablementeNo . "&r=" . $nodoProbablementeSi . "&np=" . $proxPregunta . "'>PROBABLEMENTE NO</a>";
+                    $mensaje .= "<a  class='btn btn-success col-12 col-md-3 my-1 ' href='/iarop?n=" . $nodoSi . "&r=0&np=" . $proxPregunta . "'>SÍ</a>";
+                    $mensaje .= "<a class='btn btn-danger col-12 col-md-3 my-1' href='/iarop?n=" . $nodoNo . "&r=0&np=" . $proxPregunta . "'>NO</a>";
+                    $mensaje .= "<a class='btn btn-warning col-12 col-md-3 my-1' href='/iarop?n=" . $nodoProbablementeSi . "&r=" . $nodoProbablementeNo . "&np=" . $proxPregunta . "'>PROBABLEMENTE</a>";
+                    $mensaje .= "<a class='btn btn-secondary col-12 col-md-3 my-1' href='/iarop?n=" . $nodoProbablementeNo . "&r=" . $nodoProbablementeSi . "&np=" . $proxPregunta . "'>PROBABLEMENTE NO</a>";
                     $mensaje .= "<a class='btn btn-info form-control my-2' href='/iarop?n=" . $nodoAleatorio . "&r=" . $nodoAleatorioAlt . "&np=" . $proxPregunta . "'>NO LO SÉ</a>";
                     $mensaje .= "<div class='limpiar'></div>";
                     $mensaje .= "</div>";
