@@ -135,7 +135,7 @@ bWFjIjoiYjM0NzI4MGNlMTU2NWY2YzNhNDQxNzRmNjE4OThjMzM1NzljNWE2ZDVkMGEwZWI2N2EyNTA3
                     $mensaje .= "</div>";
 
                     $mensaje .= "<div class='contenedorPregunta'>";
-                    $mensaje .= "<h2>¿Tu personaje es " . $texto . "?</h2>";
+                    $mensaje .= "<h2>¿" . $texto . "?</h2>";
                     $mensaje .= "</div>";
                     $mensaje .= "<div class='contenedorRespuestas'>";
                     $mensaje .= "<a  class='btn btn-success col-12 col-md-3 my-1 ' href='/iarop?n=" . $nodoSi . "&r=0&np=" . $proxPregunta . "'>SÍ</a>";
