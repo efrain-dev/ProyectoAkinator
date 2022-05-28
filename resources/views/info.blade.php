@@ -47,7 +47,7 @@
                     En escuelas estas no son implementadas de manera directa, un estudiante puede investigar, pero solo conocerá que existen si es del interés del estudiante, no existen normativas que exijan o introduzcan este tipo de tecnologías. La implementación de una IA en estos establecimientos de manera gratuita y no lucrativa podría beneficiar al desarrollo cognitivo y aprendizaje de los alumnos por medio de la interacción y observación de los resultados que pueda ofrecer la IA.</p>
                 <div class="text-center">
 
-                    <img src="{{asset('img/icon.jpeg')}}" alt="">
+                    <img src="{{asset('img/signo.png.jpeg')}}" alt="">
                 </div>
             </div>
         </div>
